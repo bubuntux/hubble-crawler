@@ -10,11 +10,11 @@ class SpaceTelescopeSpider(CrawlSpider):
     name = "SpaceTelescope"
     allowed_domains = ["spacetelescope.org"]
     start_urls = (
-        'http://www.spacetelescope.org/images/archive/search/?adv=&minimum_size=8&wallpapers=on',
+        'http://www.spacetelescope.org/images/archive/search/?adv=&type=Observation&minimum_size=8&wallpapers=on',
     )
-    rules = (Rule(LxmlLinkExtractor(restrict_xpaths='//span[contains(@class, "paginator_next")]/a'), callback='parse_item', follow=True),)
+    rules = (Rule(LxmlLinkExtractor(restrict_xpaths='//span[contains(@class, "paginator_next")]/a'), callback='parse', follow=True),)
 
-    def parse_item(self, response):
+    def parse(self, response):
         items = []
         for td in response.selector.css('.imagerow'):
             name = td.css('img::attr(alt)').extract()[0]
